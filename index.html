@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Empêche le navigateur de restaurer la position de scroll précédente -->
+<script>if('scrollRestoration' in history) history.scrollRestoration = 'manual';</script>
 <title>TP Tableur — Cycle 4 • ESTIC Don Bosco</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -324,6 +326,41 @@ code{
   border-radius:14px; padding:28px;
   margin:32px 0; position:relative;
   box-shadow:0 4px 12px -6px rgba(30,109,74,0.2);
+}
+
+/* Verrouillage progressif des exercices */
+.exercise.locked{
+  border-color:var(--line);
+  box-shadow:none;
+  overflow:hidden;
+}
+.exercise.locked > *:not(.lock-overlay){
+  filter:blur(2px) grayscale(0.5);
+  pointer-events:none; user-select:none;
+  opacity:0.55;
+}
+.exercise.locked .exercise-badge{
+  background:var(--ink-mute);
+  filter:none; opacity:1;
+}
+.exercise .lock-overlay{display:none}
+.exercise.locked .lock-overlay{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  position:absolute; inset:0;
+  background:rgba(251,250,247,0.65);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  z-index:5; padding:30px; gap:10px;
+  border-radius:12px;
+}
+.lock-overlay .lock-icon-big{font-size:42px; opacity:0.7}
+.lock-overlay .lock-title{
+  font-family:'Fraunces',serif; font-weight:500;
+  font-size:20px; color:var(--ink);
+}
+.lock-overlay .lock-sub-msg{
+  font-size:13px; color:var(--ink-soft); text-align:center;
+  max-width:380px; line-height:1.5;
 }
 .exercise-badge{
   position:absolute; top:-14px; left:24px;
@@ -2757,6 +2794,7 @@ function startTP(){
   localStorage.setItem('tp_tableur_name', n);
   document.getElementById('welcomeDialog').classList.add('hidden');
   document.getElementById('scoreDisplay').classList.add('show');
+  window.scrollTo(0, 0);
 }
 const savedName = localStorage.getItem('tp_tableur_name');
 if(savedName){
@@ -2764,6 +2802,18 @@ if(savedName){
   document.getElementById('scoreDisplay').classList.add('show');
   document.getElementById('welcomeName').value = savedName;
 }
+
+// Démarrage : toujours en haut de page, jamais à la position restaurée par le navigateur
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+const _forceTop = () => window.scrollTo(0, 0);
+window.addEventListener('load', () => {
+  _forceTop();
+  // Deuxième passe différée : certaines mises en page (canvas, fonts) finissent de se rendre après load
+  setTimeout(_forceTop, 50);
+  setTimeout(_forceTop, 300);
+  initLocks();        // verrouille E2..E7 par défaut, ajoute les overlays
+  TPScore.restore();  // restaure la progression sauvée + déverrouille en cascade
+});
 
 window.addEventListener('scroll', ()=>{
   const h = document.documentElement;
@@ -3154,14 +3204,73 @@ const TPScore = {
   add(id){
     if(this.exercises.has(id)) return;
     this.exercises.add(id);
+    // Persister la progression en localStorage
+    try {
+      const arr = JSON.parse(localStorage.getItem('tp_tableur_done') || '[]');
+      if(!arr.includes(id)) arr.push(id);
+      localStorage.setItem('tp_tableur_done', JSON.stringify(arr));
+    } catch(e){}
+    // Déverrouiller l'exercice suivant si c'est un ExN
+    const m = String(id).match(/^Ex(\d+)$/);
+    if(m){
+      const next = parseInt(m[1]) + 1;
+      const nextEl = document.getElementById('ex' + next);
+      if(nextEl){
+        nextEl.classList.remove('locked');
+        // Petite animation de déverrouillage
+        nextEl.style.transition = 'box-shadow .4s';
+        nextEl.style.boxShadow = '0 0 0 6px rgba(30,109,74,0.25)';
+        setTimeout(()=>{ nextEl.style.boxShadow = ''; }, 1200);
+      }
+    }
     this.update();
   },
   update(){
     document.getElementById('scoreVal').textContent = this.exercises.size;
     const dets = [...this.exercises].sort().join(' · ');
-    document.getElementById('scoreDetails').textContent = dets;
+    const detEl = document.getElementById('scoreDetails');
+    if(detEl) detEl.textContent = dets;
+  },
+  restore(){
+    try {
+      const arr = JSON.parse(localStorage.getItem('tp_tableur_done') || '[]');
+      arr.forEach(id => this.exercises.add(id));
+    } catch(e){}
+    // Déverrouiller en cascade
+    for(let i = 2; i <= 7; i++){
+      if(this.exercises.has('Ex' + (i-1))){
+        const el = document.getElementById('ex' + i);
+        if(el) el.classList.remove('locked');
+      }
+    }
+    this.update();
+  },
+  reset(){
+    this.exercises.clear();
+    try { localStorage.removeItem('tp_tableur_done'); } catch(e){}
+    initLocks();
+    this.update();
   }
 };
+
+// Initialise les overlays de verrouillage sur tous les exercices
+function initLocks(){
+  for(let i = 1; i <= 7; i++){
+    const ex = document.getElementById('ex' + i);
+    if(!ex) continue;
+    if(!ex.querySelector('.lock-overlay')){
+      const ov = document.createElement('div');
+      ov.className = 'lock-overlay';
+      const prev = i - 1;
+      ov.innerHTML = '<div class="lock-icon-big">🔒</div>' +
+        '<div class="lock-title">Exercice verrouillé</div>' +
+        '<div class="lock-sub-msg">Termine d\'abord l\'exercice <strong>E' + prev + '</strong> pour débloquer celui-ci.</div>';
+      ex.appendChild(ov);
+    }
+    if(i > 1) ex.classList.add('locked');
+    else ex.classList.remove('locked');
+  }
+}
 
 function feedback(elId, msg, ok){
   const el = document.getElementById(elId);

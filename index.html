@@ -548,7 +548,7 @@ code{
 .lock-section{
   background:linear-gradient(135deg, #1a1d24 0%, #2a2f3a 100%);
   color:#fff; border-radius:16px;
-  padding:40px; margin-top:60px;
+  padding:50px 40px 40px; margin-top:30px;
   position:relative; overflow:hidden;
 }
 .lock-section::before{
@@ -557,12 +557,13 @@ code{
   background:radial-gradient(circle, rgba(184,131,10,0.15) 0%, transparent 70%);
 }
 .lock-section .lock-stamp{
-  position:absolute; top:-18px; right:24px;
+  position:absolute; top:16px; right:16px;
   background:#1a1d24; color:#ffba6e;
   border:1px solid #b8830a;
   padding:6px 16px; border-radius:20px;
   font-size:11px; font-weight:700; letter-spacing:0.12em;
   text-transform:uppercase;
+  z-index:2;
 }
 .lock-screen{
   text-align:center; padding:30px 0; position:relative;
@@ -578,6 +579,11 @@ code{
 .lock-screen .lock-sub{
   color:#a0a8b4; font-size:15px; line-height:1.6;
   max-width:520px; margin:0 auto 26px;
+}
+/* Les strong dans le bloc sombre doivent rester visibles */
+.lock-screen .lock-sub strong,
+.lock-screen .lock-sub b{
+  color:#ffba6e; font-weight:700;
 }
 .lock-screen .lock-form{
   max-width:380px; margin:0 auto;
@@ -951,6 +957,129 @@ code{
   height:100%; background:linear-gradient(90deg, var(--accent), var(--gold), var(--warn));
   width:100%; transition:width .25s linear;
 }
+
+/* === Verrouillage de l'arcade === */
+.arcade-lock-card{
+  background:linear-gradient(135deg, #1a1d24 0%, #2a2f3a 100%);
+  color:#fff; border-radius:16px; padding:40px;
+  text-align:center; margin:30px 0;
+}
+.arcade-lock-icon{font-size:56px; margin-bottom:10px; filter:drop-shadow(0 0 20px rgba(184,131,10,0.3))}
+.arcade-lock-card h2{font-family:'Fraunces',serif; font-weight:500; font-size:28px; color:#fff; margin-bottom:10px}
+.arcade-lock-card p{color:#a0a8b4; font-size:15px; line-height:1.6; max-width:480px; margin:0 auto 20px}
+.arcade-lock-card strong{color:#ffba6e}
+.arcade-lock-progress{max-width:360px; margin:0 auto}
+.arcade-lock-bar{height:12px; background:rgba(255,255,255,0.1); border-radius:8px; overflow:hidden; margin-bottom:8px}
+.arcade-lock-fill{height:100%; background:linear-gradient(90deg, var(--accent), var(--gold)); width:0%; transition:width .5s ease}
+.arcade-lock-count{font-size:13px; color:#a0a8b4}
+.arcade-lock-count span{color:#fff; font-weight:700; font-size:16px}
+
+.arcade-section.locked-arcade{position:relative; overflow:hidden}
+.arcade-section.locked-arcade > *{filter:blur(5px) grayscale(0.6); pointer-events:none; user-select:none; opacity:0.5}
+.arcade-section.locked-arcade::after{
+  content:"🔒 Termine les 7 exercices pour débloquer ce jeu";
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  background:rgba(251,250,247,0.55); backdrop-filter:blur(2px);
+  font-family:'Fraunces',serif; font-size:18px; color:var(--ink); text-align:center; padding:20px;
+}
+
+/* === Jeu 4 : Référence Express — grille === */
+.ref-grid{display:grid; gap:3px; max-width:520px; margin:16px auto; grid-template-columns:36px repeat(6, 1fr)}
+.ref-grid .rg-cell{
+  background:var(--paper); border:1px solid var(--grid); border-radius:4px;
+  height:38px; display:flex; align-items:center; justify-content:center;
+  font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-soft);
+}
+.ref-grid .rg-head{background:#f0eee2; font-weight:600; font-size:12px}
+.ref-grid .rg-cell.target{background:var(--accent); animation:pulseTarget 1s infinite}
+@keyframes pulseTarget{0%,100%{box-shadow:0 0 0 0 rgba(30,109,74,0.5)} 50%{box-shadow:0 0 0 6px rgba(30,109,74,0)}}
+
+/* === Jeu 5 : Quel résultat ? === */
+.qr-cells{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:16px 0}
+.qr-cells .qrc{
+  background:var(--paper); border:2px solid var(--accent-soft); border-radius:8px;
+  padding:8px 14px; text-align:center; min-width:64px;
+}
+.qr-cells .qrc .ref{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft); font-weight:600}
+.qr-cells .qrc .v{font-size:20px; font-weight:700; color:var(--ink)}
+.qr-formula{
+  text-align:center; font-family:'JetBrains Mono',monospace; font-size:24px;
+  color:var(--accent-deep); font-weight:600; background:var(--accent-soft);
+  padding:12px; border-radius:8px; margin:6px auto; max-width:340px;
+}
+
+/* === Jeu 6 : Vrai ou Faux === */
+.vf-statement{
+  font-size:20px; line-height:1.5; color:var(--ink); text-align:center;
+  padding:24px; background:var(--paper); border:1px solid var(--line);
+  border-radius:12px; margin:16px 0; min-height:100px;
+  display:flex; align-items:center; justify-content:center;
+}
+.vf-statement code{background:var(--accent-soft); color:var(--accent-deep); padding:2px 8px; border-radius:4px; font-size:0.85em}
+.vf-buttons{display:flex; gap:16px; justify-content:center}
+.vf-btn{
+  flex:1; max-width:200px; padding:18px; border:none; border-radius:12px;
+  font-family:'Outfit',sans-serif; font-weight:700; font-size:18px; cursor:pointer;
+  transition:transform .1s;
+}
+.vf-btn:active{transform:scale(0.97)}
+.vf-true{background:var(--accent-soft); color:var(--accent-deep)}
+.vf-true:hover{background:#c5e8d4}
+.vf-false{background:var(--warn-soft); color:var(--warn)}
+.vf-false:hover{background:#ffd9c0}
+.vf-btn.correct{outline:3px solid var(--accent)}
+.vf-btn.wrong{outline:3px solid var(--warn)}
+
+/* === Jeu 7 : Memory === */
+.memory-board{display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; max-width:600px; margin:16px auto}
+.mem-card{
+  aspect-ratio:3/2.4; border-radius:10px; cursor:pointer; position:relative;
+  perspective:600px; min-height:80px;
+}
+.mem-card .mc-inner{
+  position:absolute; inset:0; transition:transform .4s; transform-style:preserve-3d;
+}
+.mem-card.flipped .mc-inner, .mem-card.matched .mc-inner{transform:rotateY(180deg)}
+.mc-face{
+  position:absolute; inset:0; backface-visibility:hidden; border-radius:10px;
+  display:flex; align-items:center; justify-content:center; padding:8px; text-align:center;
+}
+.mc-back{
+  background:linear-gradient(135deg, var(--accent), var(--accent-deep)); color:#fff;
+  font-size:24px;
+}
+.mc-front{
+  background:var(--paper); border:2px solid var(--accent); transform:rotateY(180deg);
+  font-size:13px; color:var(--ink); line-height:1.3;
+}
+.mc-front.fn{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px; color:var(--accent-deep)}
+.mem-card.matched .mc-front{background:var(--accent-soft); border-color:var(--accent)}
+.mem-card.matched{cursor:default}
+
+/* === Jeu 8 : Construis la formule === */
+.build-goal{
+  text-align:center; font-size:16px; color:var(--ink); padding:14px;
+  background:var(--accent-soft); border-radius:10px; margin:16px 0;
+}
+.build-goal strong{color:var(--accent-deep)}
+.build-zone{
+  min-height:60px; background:var(--paper); border:2px dashed var(--accent);
+  border-radius:10px; padding:14px; display:flex; gap:8px; flex-wrap:wrap;
+  align-items:center; justify-content:center; margin-bottom:14px;
+}
+.build-placeholder{color:var(--ink-mute); font-style:italic; font-size:14px}
+.build-token{
+  background:var(--accent); color:#fff; padding:8px 14px; border-radius:8px;
+  font-family:'JetBrains Mono',monospace; font-weight:600; font-size:15px; cursor:pointer;
+}
+.build-bricks{display:flex; gap:10px; flex-wrap:wrap; justify-content:center}
+.build-brick{
+  background:var(--paper); border:2px solid var(--accent); color:var(--accent-deep);
+  padding:10px 16px; border-radius:8px; font-family:'JetBrains Mono',monospace;
+  font-weight:600; font-size:15px; cursor:pointer; transition:all .12s;
+}
+.build-brick:hover{background:var(--accent); color:#fff}
+.build-brick:disabled{opacity:0.35; cursor:not-allowed}
 
 /* === Détective === */
 .detective-board{
@@ -2482,7 +2611,25 @@ code{
 <!-- ====================================================================
      ARCADE — JEU 1 : CIBLE-FORMULE
 ==================================================================== -->
-<section id="game1">
+<!-- ====================================================================
+     ARCADE — bannière de verrouillage
+==================================================================== -->
+<section id="arcadeLockBanner" style="display:none">
+  <div class="arcade-lock-card">
+    <div class="arcade-lock-icon">🔒</div>
+    <h2>Salle d'arcade verrouillée</h2>
+    <p>
+      Les <strong>8 jeux</strong> de l'arcade se débloquent une fois que tu as terminé
+      les <strong>7 exercices</strong> de la partie « Pratique ».
+    </p>
+    <div class="arcade-lock-progress">
+      <div class="arcade-lock-bar"><div class="arcade-lock-fill" id="arcadeLockFill"></div></div>
+      <div class="arcade-lock-count"><span id="arcadeLockDone">0</span>/7 exercices terminés</div>
+    </div>
+  </div>
+</section>
+
+<section id="game1" class="arcade-section">
   <div class="section-tag">▶ Arcade · Jeu 1</div>
   <h2>🎯 Cible-Formule</h2>
 
@@ -2536,7 +2683,7 @@ code{
 <!-- ====================================================================
      ARCADE — JEU 2 : SPRINT FONCTIONS
 ==================================================================== -->
-<section id="game2">
+<section id="game2" class="arcade-section">
   <div class="section-tag">▶ Arcade · Jeu 2</div>
   <h2>⚡ Sprint Fonctions</h2>
 
@@ -2597,7 +2744,7 @@ code{
 <!-- ====================================================================
      ARCADE — JEU 3 : DÉTECTIVE DES FORMULES
 ==================================================================== -->
-<section id="game3">
+<section id="game3" class="arcade-section">
   <div class="section-tag">▶ Arcade · Jeu 3</div>
   <h2>🔍 Détective des formules</h2>
 
@@ -2638,6 +2785,252 @@ code{
       </div>
       <div class="case-clue" id="g3Clue" style="display:none"></div>
       <div class="feedback" id="fb_g3"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ====================================================================
+     ARCADE — JEU 4 : RÉFÉRENCE EXPRESS
+==================================================================== -->
+<section id="game4" class="arcade-section">
+  <div class="section-tag">▶ Arcade · Jeu 4</div>
+  <h2>📍 Référence Express</h2>
+  <div class="game-card">
+    <div class="game-head">
+      <div class="icon" style="background:#e6f4ec">📍</div>
+      <div>
+        <h3>Lis la bonne référence !</h3>
+        <div class="sub">45 secondes · trouve la cellule en surbrillance</div>
+      </div>
+    </div>
+    <div class="game-rules">
+      <strong>Mission :</strong> une cellule s'allume dans la grille. Tape sa
+      <strong>référence</strong> (lettre de colonne + numéro de ligne, ex : <code>C3</code>),
+      puis valide avec <strong>Entrée</strong>. Chaque bonne réponse = <strong>10 points</strong>,
+      +<strong>3</strong> par combo.
+    </div>
+    <div class="game-hud">
+      <div class="hud-pill timer"><span class="lbl">Temps</span><span class="val" id="g4Time">45s</span></div>
+      <div class="hud-pill score"><span class="lbl">Score</span><span class="val" id="g4Score">0</span></div>
+      <div class="hud-pill combo"><span class="lbl">Combo</span><span class="val" id="g4Combo">×0</span></div>
+    </div>
+    <div class="sprint-arena">
+      <div class="sprint-start" id="g4Start">
+        <p style="font-size:16px; color:var(--ink-soft); margin-bottom:16px">Prêt·e à lire des coordonnées à toute vitesse ?</p>
+        <button class="btn-fire" style="padding:14px 28px; font-size:16px; border:none; border-radius:10px; color:#fff; font-weight:600; cursor:pointer" onclick="g4Start()">▶ Démarrer</button>
+      </div>
+      <div id="g4Play" style="display:none">
+        <div class="timer-bar"><div class="fill" id="g4TimerFill"></div></div>
+        <div id="g4Grid" class="ref-grid"></div>
+        <div class="case-formula-row" style="justify-content:center; margin-top:16px">
+          <span style="font-size:14px; color:var(--ink-soft); font-weight:600">Référence :</span>
+          <input type="text" id="g4Input" placeholder="ex : C3" autocomplete="off" style="max-width:120px; text-transform:uppercase">
+          <button class="btn-fire" onclick="g4Submit()">✓</button>
+        </div>
+        <div class="feedback" id="fb_g4" style="margin-top:10px"></div>
+      </div>
+      <div class="sprint-over" id="g4Over" style="display:none">
+        <div style="font-size:14px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.1em">Terminé</div>
+        <div class="final-score" id="g4Final">0</div>
+        <div class="rank-msg" id="g4Rank"></div>
+        <button class="btn-fire" style="padding:12px 24px; font-size:15px; border:none; border-radius:8px; color:#fff; font-weight:600; cursor:pointer; margin-top:12px" onclick="g4Start()">↺ Rejouer</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ====================================================================
+     ARCADE — JEU 5 : QUEL RÉSULTAT ?
+==================================================================== -->
+<section id="game5" class="arcade-section">
+  <div class="section-tag">▶ Arcade · Jeu 5</div>
+  <h2>🧮 Quel résultat ?</h2>
+  <div class="game-card">
+    <div class="game-head">
+      <div class="icon" style="background:#fff5d6">🧮</div>
+      <div>
+        <h3>Calcule la formule de tête !</h3>
+        <div class="sub">60 secondes · lis les valeurs, donne le résultat</div>
+      </div>
+    </div>
+    <div class="game-rules">
+      <strong>Mission :</strong> des cellules contiennent des valeurs, et une
+      <strong>formule</strong> est affichée. Calcule mentalement le <strong>résultat</strong>
+      et tape-le. <strong>10 points</strong> par bonne réponse, +<strong>3</strong> par combo.
+    </div>
+    <div class="game-hud">
+      <div class="hud-pill timer"><span class="lbl">Temps</span><span class="val" id="g5Time">60s</span></div>
+      <div class="hud-pill score"><span class="lbl">Score</span><span class="val" id="g5Score">0</span></div>
+      <div class="hud-pill combo"><span class="lbl">Combo</span><span class="val" id="g5Combo">×0</span></div>
+    </div>
+    <div class="sprint-arena">
+      <div class="sprint-start" id="g5Start">
+        <p style="font-size:16px; color:var(--ink-soft); margin-bottom:16px">Prêt·e pour du calcul mental de formules ?</p>
+        <button class="btn-fire" style="padding:14px 28px; font-size:16px; border:none; border-radius:10px; color:#fff; font-weight:600; cursor:pointer" onclick="g5Start()">▶ Démarrer</button>
+      </div>
+      <div id="g5Play" style="display:none">
+        <div class="timer-bar"><div class="fill" id="g5TimerFill"></div></div>
+        <div id="g5Cells" class="qr-cells"></div>
+        <div class="qr-formula" id="g5Formula"></div>
+        <div class="case-formula-row" style="justify-content:center; margin-top:12px">
+          <span style="font-size:14px; color:var(--ink-soft); font-weight:600">Résultat :</span>
+          <input type="text" id="g5Input" placeholder="?" autocomplete="off" style="max-width:120px">
+          <button class="btn-fire" onclick="g5Submit()">✓</button>
+        </div>
+        <div class="feedback" id="fb_g5" style="margin-top:10px"></div>
+      </div>
+      <div class="sprint-over" id="g5Over" style="display:none">
+        <div style="font-size:14px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.1em">Terminé</div>
+        <div class="final-score" id="g5Final">0</div>
+        <div class="rank-msg" id="g5Rank"></div>
+        <button class="btn-fire" style="padding:12px 24px; font-size:15px; border:none; border-radius:8px; color:#fff; font-weight:600; cursor:pointer; margin-top:12px" onclick="g5Start()">↺ Rejouer</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ====================================================================
+     ARCADE — JEU 6 : VRAI OU FAUX
+==================================================================== -->
+<section id="game6" class="arcade-section">
+  <div class="section-tag">▶ Arcade · Jeu 6</div>
+  <h2>⚖️ Vrai ou Faux ?</h2>
+  <div class="game-card">
+    <div class="game-head">
+      <div class="icon" style="background:#e6efff">⚖️</div>
+      <div>
+        <h3>L'affirmation est-elle juste ?</h3>
+        <div class="sub">60 secondes · vrai ou faux sur le tableur</div>
+      </div>
+    </div>
+    <div class="game-rules">
+      <strong>Mission :</strong> une affirmation sur les tableurs s'affiche. Décide si elle
+      est <strong>vraie</strong> ou <strong>fausse</strong>. <strong>10 points</strong>
+      par bonne réponse, +<strong>3</strong> par combo. Attention aux pièges !
+    </div>
+    <div class="game-hud">
+      <div class="hud-pill timer"><span class="lbl">Temps</span><span class="val" id="g6Time">60s</span></div>
+      <div class="hud-pill score"><span class="lbl">Score</span><span class="val" id="g6Score">0</span></div>
+      <div class="hud-pill combo"><span class="lbl">Combo</span><span class="val" id="g6Combo">×0</span></div>
+    </div>
+    <div class="sprint-arena">
+      <div class="sprint-start" id="g6Start">
+        <p style="font-size:16px; color:var(--ink-soft); margin-bottom:16px">Prêt·e à démêler le vrai du faux ?</p>
+        <button class="btn-fire" style="padding:14px 28px; font-size:16px; border:none; border-radius:10px; color:#fff; font-weight:600; cursor:pointer" onclick="g6Start()">▶ Démarrer</button>
+      </div>
+      <div id="g6Play" style="display:none">
+        <div class="timer-bar"><div class="fill" id="g6TimerFill"></div></div>
+        <div class="vf-statement" id="g6Statement"></div>
+        <div class="vf-buttons">
+          <button class="vf-btn vf-true" onclick="g6Answer(true, this)">✓ VRAI</button>
+          <button class="vf-btn vf-false" onclick="g6Answer(false, this)">✗ FAUX</button>
+        </div>
+        <div class="feedback" id="fb_g6" style="margin-top:10px"></div>
+      </div>
+      <div class="sprint-over" id="g6Over" style="display:none">
+        <div style="font-size:14px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.1em">Terminé</div>
+        <div class="final-score" id="g6Final">0</div>
+        <div class="rank-msg" id="g6Rank"></div>
+        <button class="btn-fire" style="padding:12px 24px; font-size:15px; border:none; border-radius:8px; color:#fff; font-weight:600; cursor:pointer; margin-top:12px" onclick="g6Start()">↺ Rejouer</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ====================================================================
+     ARCADE — JEU 7 : MEMORY DES FONCTIONS
+==================================================================== -->
+<section id="game7" class="arcade-section">
+  <div class="section-tag">▶ Arcade · Jeu 7</div>
+  <h2>🃏 Memory des fonctions</h2>
+  <div class="game-card">
+    <div class="game-head">
+      <div class="icon" style="background:#f0e6ff">🃏</div>
+      <div>
+        <h3>Associe fonction et rôle !</h3>
+        <div class="sub">6 paires à retrouver · le moins de coups possible</div>
+      </div>
+    </div>
+    <div class="game-rules">
+      <strong>Mission :</strong> retourne les cartes deux par deux pour associer chaque
+      <strong>fonction</strong> à sa <strong>description</strong>. Trouve les 6 paires en
+      un minimum de coups. Score = <strong>1000 − (coups × 20) − (temps × 2)</strong>.
+    </div>
+    <div class="game-hud">
+      <div class="hud-pill"><span class="lbl">Coups</span><span class="val" id="g7Moves">0</span></div>
+      <div class="hud-pill score"><span class="lbl">Paires</span><span class="val" id="g7Pairs">0</span>/6</div>
+      <div class="hud-pill timer"><span class="lbl">Temps</span><span class="val" id="g7Time">0s</span></div>
+    </div>
+    <div class="sprint-arena">
+      <div class="sprint-start" id="g7Start">
+        <p style="font-size:16px; color:var(--ink-soft); margin-bottom:16px">Prêt·e à muscler ta mémoire des fonctions ?</p>
+        <button class="btn-fire" style="padding:14px 28px; font-size:16px; border:none; border-radius:10px; color:#fff; font-weight:600; cursor:pointer" onclick="g7Start()">▶ Démarrer</button>
+      </div>
+      <div id="g7Play" style="display:none">
+        <div id="g7Board" class="memory-board"></div>
+        <div class="feedback" id="fb_g7" style="margin-top:12px"></div>
+      </div>
+      <div class="sprint-over" id="g7Over" style="display:none">
+        <div style="font-size:14px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.1em">Bravo !</div>
+        <div class="final-score" id="g7Final">0</div>
+        <div class="rank-msg" id="g7Rank"></div>
+        <button class="btn-fire" style="padding:12px 24px; font-size:15px; border:none; border-radius:8px; color:#fff; font-weight:600; cursor:pointer; margin-top:12px" onclick="g7Start()">↺ Rejouer</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ====================================================================
+     ARCADE — JEU 8 : CONSTRUIS LA FORMULE
+==================================================================== -->
+<section id="game8" class="arcade-section">
+  <div class="section-tag">▶ Arcade · Jeu 8</div>
+  <h2>🧩 Construis la formule</h2>
+  <div class="game-card">
+    <div class="game-head">
+      <div class="icon" style="background:#ffe9d6">🧩</div>
+      <div>
+        <h3>Assemble les bonnes briques !</h3>
+        <div class="sub">5 défis · clique les morceaux dans le bon ordre</div>
+      </div>
+    </div>
+    <div class="game-rules">
+      <strong>Mission :</strong> un objectif est donné (ex : « additionne A1 à A10 »).
+      Clique sur les <strong>briques</strong> dans le bon ordre pour reconstituer la formule.
+      <strong>20 points</strong> par formule correcte, −10 si tu réinitialises.
+    </div>
+    <div class="game-hud">
+      <div class="hud-pill score"><span class="lbl">Score</span><span class="val" id="g8Score">0</span></div>
+      <div class="hud-pill"><span class="lbl">Défi</span><span class="val" id="g8Round">1</span>/5</div>
+      <div class="hud-pill"><span class="lbl">Réussis</span><span class="val" id="g8Solved">0</span></div>
+    </div>
+    <div class="sprint-arena">
+      <div class="sprint-start" id="g8Start">
+        <p style="font-size:16px; color:var(--ink-soft); margin-bottom:16px">Prêt·e à construire des formules brique par brique ?</p>
+        <button class="btn-fire" style="padding:14px 28px; font-size:16px; border:none; border-radius:10px; color:#fff; font-weight:600; cursor:pointer" onclick="g8Start()">▶ Démarrer</button>
+      </div>
+      <div id="g8Play" style="display:none">
+        <div class="build-goal" id="g8Goal"></div>
+        <div class="build-zone" id="g8Zone"><span class="build-placeholder">Clique les briques ci-dessous…</span></div>
+        <div class="build-bricks" id="g8Bricks"></div>
+        <div class="target-buttons" style="margin-top:12px">
+          <button class="btn-fire" onclick="g8Check()">✓ Valider</button>
+          <button class="btn-ghost" onclick="g8ResetBuild()">↺ Effacer (−10)</button>
+          <button class="btn-next" onclick="g8Next()" id="g8NextBtn" style="display:none">▶ Défi suivant</button>
+        </div>
+        <div class="feedback" id="fb_g8" style="margin-top:10px"></div>
+      </div>
+      <div class="sprint-over" id="g8Over" style="display:none">
+        <div style="font-size:14px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.1em">Terminé</div>
+        <div class="final-score" id="g8Final">0</div>
+        <div class="rank-msg" id="g8Rank"></div>
+        <button class="btn-fire" style="padding:12px 24px; font-size:15px; border:none; border-radius:8px; color:#fff; font-weight:600; cursor:pointer; margin-top:12px" onclick="g8Start()">↺ Rejouer</button>
+      </div>
     </div>
   </div>
 </section>
@@ -2813,6 +3206,7 @@ window.addEventListener('load', () => {
   setTimeout(_forceTop, 300);
   initLocks();        // verrouille E2..E7 par défaut, ajoute les overlays
   TPScore.restore();  // restaure la progression sauvée + déverrouille en cascade
+  updateArcadeLock(); // verrouille/déverrouille l'arcade selon l'avancement
 });
 
 window.addEventListener('scroll', ()=>{
@@ -5446,6 +5840,7 @@ function g3Next(){
 window.addEventListener('load', ()=>{
   g1NewTarget();
   g3Render();
+  updateArcadeLock();
 });
 
 // Enter dans les inputs des jeux
@@ -5454,6 +5849,430 @@ document.getElementById('g1Input').addEventListener('keydown', e=>{
 });
 document.getElementById('g3Input').addEventListener('keydown', e=>{
   if(e.key === 'Enter'){ e.preventDefault(); g3Submit(); }
+});
+
+/* ====================================================================
+   VERROUILLAGE DE L'ARCADE — tant que E1..E7 ne sont pas finis
+==================================================================== */
+function updateArcadeLock(){
+  const need = ['Ex1','Ex2','Ex3','Ex4','Ex5','Ex6','Ex7'];
+  const done = need.filter(id => TPScore.exercises.has(id)).length;
+  const allDone = done === need.length;
+
+  const banner = document.getElementById('arcadeLockBanner');
+  if(banner) banner.style.display = allDone ? 'none' : 'block';
+  const fill = document.getElementById('arcadeLockFill');
+  if(fill) fill.style.width = (done / need.length * 100) + '%';
+  const cnt = document.getElementById('arcadeLockDone');
+  if(cnt) cnt.textContent = done;
+
+  document.querySelectorAll('.arcade-section').forEach(sec => {
+    if(allDone) sec.classList.remove('locked-arcade');
+    else sec.classList.add('locked-arcade');
+  });
+}
+
+// Re-vérouiller à chaque validation d'exercice : on encapsule TPScore.add
+const _origAdd = TPScore.add.bind(TPScore);
+TPScore.add = function(id){
+  _origAdd(id);
+  updateArcadeLock();
+};
+
+/* ====================================================================
+   JEU 4 — RÉFÉRENCE EXPRESS
+==================================================================== */
+const G4 = { score:0, combo:0, timeLeft:45, timer:null, running:false, target:null };
+const G4_COLS = 6, G4_ROWS = 8;
+
+function g4BuildGrid(){
+  const grid = document.getElementById('g4Grid');
+  grid.style.gridTemplateColumns = '36px repeat(' + G4_COLS + ', 1fr)';
+  let html = '<div class="rg-cell rg-head"></div>';
+  for(let c = 0; c < G4_COLS; c++) html += '<div class="rg-cell rg-head">' + String.fromCharCode(65+c) + '</div>';
+  for(let r = 1; r <= G4_ROWS; r++){
+    html += '<div class="rg-cell rg-head">' + r + '</div>';
+    for(let c = 0; c < G4_COLS; c++){
+      const ref = String.fromCharCode(65+c) + r;
+      html += '<div class="rg-cell" data-ref="' + ref + '"></div>';
+    }
+  }
+  grid.innerHTML = html;
+}
+function g4NewTarget(){
+  const c = Math.floor(Math.random()*G4_COLS);
+  const r = Math.floor(Math.random()*G4_ROWS) + 1;
+  G4.target = String.fromCharCode(65+c) + r;
+  document.querySelectorAll('#g4Grid .rg-cell').forEach(el => el.classList.remove('target'));
+  const cell = document.querySelector('#g4Grid .rg-cell[data-ref="' + G4.target + '"]');
+  if(cell) cell.classList.add('target');
+  document.getElementById('g4Input').value = '';
+  document.getElementById('g4Input').focus();
+}
+function g4Start(){
+  G4.score = 0; G4.combo = 0; G4.timeLeft = 45; G4.running = true;
+  document.getElementById('g4Start').style.display = 'none';
+  document.getElementById('g4Over').style.display = 'none';
+  document.getElementById('g4Play').style.display = 'block';
+  document.getElementById('g4Score').textContent = '0';
+  document.getElementById('g4Combo').textContent = '×0';
+  document.getElementById('g4Time').textContent = '45s';
+  document.getElementById('g4TimerFill').style.width = '100%';
+  g4BuildGrid();
+  g4NewTarget();
+  if(G4.timer) clearInterval(G4.timer);
+  G4.timer = setInterval(()=>{
+    G4.timeLeft -= 0.25;
+    document.getElementById('g4Time').textContent = Math.max(0, Math.ceil(G4.timeLeft)) + 's';
+    document.getElementById('g4TimerFill').style.width = Math.max(0, G4.timeLeft/45*100) + '%';
+    if(G4.timeLeft <= 0){ clearInterval(G4.timer); g4End(); }
+  }, 250);
+}
+function g4Submit(){
+  if(!G4.running) return;
+  const val = document.getElementById('g4Input').value.trim().toUpperCase();
+  const fb = document.getElementById('fb_g4');
+  if(val === G4.target){
+    G4.combo++;
+    G4.score += 10 + (G4.combo - 1) * 3;
+    fb.className = 'feedback show ok'; fb.textContent = '✓ Exact !';
+    document.getElementById('g4Score').textContent = G4.score;
+    document.getElementById('g4Combo').textContent = '×' + G4.combo;
+    g4NewTarget();
+  } else {
+    G4.combo = 0;
+    document.getElementById('g4Combo').textContent = '×0';
+    fb.className = 'feedback show ko'; fb.textContent = '✗ C\'était ' + G4.target + '.';
+    g4NewTarget();
+  }
+}
+function g4End(){
+  G4.running = false;
+  document.getElementById('g4Play').style.display = 'none';
+  document.getElementById('g4Over').style.display = 'block';
+  document.getElementById('g4Final').textContent = G4.score;
+  let msg = G4.score >= 150 ? '🌟 Œil de lynx !' : G4.score >= 90 ? '🔥 Très rapide !' : G4.score >= 40 ? '👍 Bien.' : '⚠ Entraîne-toi encore.';
+  document.getElementById('g4Rank').textContent = msg;
+  if(G4.score >= 100) TPScore.add('📍');
+}
+
+/* ====================================================================
+   JEU 5 — QUEL RÉSULTAT ?
+==================================================================== */
+const G5 = { score:0, combo:0, timeLeft:60, timer:null, running:false, answer:0 };
+function g5NewQuestion(){
+  // Générer 3 cellules A1, A2, A3 avec des valeurs
+  const vals = [0,0,0].map(()=> Math.floor(Math.random()*9) + 1);
+  const refs = ['A1','A2','A3'];
+  const types = [
+    ()=>({f:'=A1+A2', r:vals[0]+vals[1]}),
+    ()=>({f:'=A1+A2+A3', r:vals[0]+vals[1]+vals[2]}),
+    ()=>({f:'=A1*A2', r:vals[0]*vals[1]}),
+    ()=>({f:'=A3-A1', r:vals[2]-vals[0]}),
+    ()=>({f:'=SOMME(A1:A3)', r:vals[0]+vals[1]+vals[2]}),
+    ()=>({f:'=MAX(A1:A3)', r:Math.max(...vals)}),
+    ()=>({f:'=MIN(A1:A3)', r:Math.min(...vals)}),
+    ()=>({f:'=MOYENNE(A1:A3)', r:Math.round((vals[0]+vals[1]+vals[2])/3*100)/100})
+  ];
+  const q = types[Math.floor(Math.random()*types.length)]();
+  G5.answer = q.r;
+  let cellsHtml = '';
+  refs.forEach((ref, i) => {
+    cellsHtml += '<div class="qrc"><div class="ref">' + ref + '</div><div class="v">' + vals[i] + '</div></div>';
+  });
+  document.getElementById('g5Cells').innerHTML = cellsHtml;
+  document.getElementById('g5Formula').textContent = q.f;
+  document.getElementById('g5Input').value = '';
+  document.getElementById('g5Input').focus();
+}
+function g5Start(){
+  G5.score = 0; G5.combo = 0; G5.timeLeft = 60; G5.running = true;
+  document.getElementById('g5Start').style.display = 'none';
+  document.getElementById('g5Over').style.display = 'none';
+  document.getElementById('g5Play').style.display = 'block';
+  document.getElementById('g5Score').textContent = '0';
+  document.getElementById('g5Combo').textContent = '×0';
+  document.getElementById('g5Time').textContent = '60s';
+  document.getElementById('g5TimerFill').style.width = '100%';
+  g5NewQuestion();
+  if(G5.timer) clearInterval(G5.timer);
+  G5.timer = setInterval(()=>{
+    G5.timeLeft -= 0.25;
+    document.getElementById('g5Time').textContent = Math.max(0, Math.ceil(G5.timeLeft)) + 's';
+    document.getElementById('g5TimerFill').style.width = Math.max(0, G5.timeLeft/60*100) + '%';
+    if(G5.timeLeft <= 0){ clearInterval(G5.timer); g5End(); }
+  }, 250);
+}
+function g5Submit(){
+  if(!G5.running) return;
+  const val = parseFloat(document.getElementById('g5Input').value.trim().replace(',', '.'));
+  const fb = document.getElementById('fb_g5');
+  if(Math.abs(val - G5.answer) < 0.01){
+    G5.combo++;
+    G5.score += 10 + (G5.combo - 1) * 3;
+    fb.className = 'feedback show ok'; fb.textContent = '✓ Bonne réponse !';
+    document.getElementById('g5Score').textContent = G5.score;
+    document.getElementById('g5Combo').textContent = '×' + G5.combo;
+    g5NewQuestion();
+  } else {
+    G5.combo = 0;
+    document.getElementById('g5Combo').textContent = '×0';
+    fb.className = 'feedback show ko'; fb.textContent = '✗ C\'était ' + G5.answer + '.';
+    g5NewQuestion();
+  }
+}
+function g5End(){
+  G5.running = false;
+  document.getElementById('g5Play').style.display = 'none';
+  document.getElementById('g5Over').style.display = 'block';
+  document.getElementById('g5Final').textContent = G5.score;
+  let msg = G5.score >= 150 ? '🌟 Calculateur·rice de génie !' : G5.score >= 90 ? '🔥 Excellent !' : G5.score >= 40 ? '👍 Bien.' : '⚠ Persévère.';
+  document.getElementById('g5Rank').textContent = msg;
+  if(G5.score >= 100) TPScore.add('🧮');
+}
+
+/* ====================================================================
+   JEU 6 — VRAI OU FAUX
+==================================================================== */
+const G6 = { score:0, combo:0, timeLeft:60, timer:null, running:false, current:null };
+const VF_STATEMENTS = [
+  {t:'Une formule commence toujours par le signe <code>=</code>.', v:true},
+  {t:'La référence <code>C3</code> désigne la colonne 3, ligne C.', v:false},
+  {t:'<code>A1:A5</code> désigne une plage de 5 cellules.', v:true},
+  {t:'<code>=SOMME(A1;A3)</code> additionne A1, A2 et A3.', v:false},
+  {t:'<code>=MOYENNE(A1:A4)</code> calcule la moyenne de 4 cellules.', v:true},
+  {t:'Dans un tableur, les colonnes sont désignées par des lettres.', v:true},
+  {t:'<code>=MAX(A1:A10)</code> renvoie la plus petite valeur de la plage.', v:false},
+  {t:'On peut écrire du texte dans une cellule sans formule.', v:true},
+  {t:'<code>=A1*B1</code> multiplie le contenu de A1 par celui de B1.', v:true},
+  {t:'La cellule à l\'intersection de la colonne B et la ligne 4 se note <code>4B</code>.', v:false},
+  {t:'<code>=NB(A1:A10)</code> compte les cellules contenant un nombre.', v:true},
+  {t:'Si on modifie A1, une formule <code>=A1+1</code> se recalcule automatiquement.', v:true},
+  {t:'<code>=SOMME(A1:A3)</code> et <code>=A1+A2+A3</code> donnent le même résultat.', v:true},
+  {t:'Le symbole de la multiplication dans un tableur est <code>x</code>.', v:false},
+  {t:'Une plage <code>B2:D2</code> s\'étend sur une seule ligne.', v:true}
+];
+function g6NewStatement(){
+  G6.current = VF_STATEMENTS[Math.floor(Math.random()*VF_STATEMENTS.length)];
+  document.getElementById('g6Statement').innerHTML = G6.current.t;
+  document.querySelectorAll('.vf-btn').forEach(b => { b.classList.remove('correct','wrong'); b.disabled = false; });
+}
+function g6Start(){
+  G6.score = 0; G6.combo = 0; G6.timeLeft = 60; G6.running = true;
+  document.getElementById('g6Start').style.display = 'none';
+  document.getElementById('g6Over').style.display = 'none';
+  document.getElementById('g6Play').style.display = 'block';
+  document.getElementById('g6Score').textContent = '0';
+  document.getElementById('g6Combo').textContent = '×0';
+  document.getElementById('g6Time').textContent = '60s';
+  document.getElementById('g6TimerFill').style.width = '100%';
+  g6NewStatement();
+  if(G6.timer) clearInterval(G6.timer);
+  G6.timer = setInterval(()=>{
+    G6.timeLeft -= 0.25;
+    document.getElementById('g6Time').textContent = Math.max(0, Math.ceil(G6.timeLeft)) + 's';
+    document.getElementById('g6TimerFill').style.width = Math.max(0, G6.timeLeft/60*100) + '%';
+    if(G6.timeLeft <= 0){ clearInterval(G6.timer); g6End(); }
+  }, 250);
+}
+function g6Answer(choice, btn){
+  if(!G6.running) return;
+  const correct = (choice === G6.current.v);
+  document.querySelectorAll('.vf-btn').forEach(b => b.disabled = true);
+  const fb = document.getElementById('fb_g6');
+  if(correct){
+    btn.classList.add('correct');
+    G6.combo++;
+    G6.score += 10 + (G6.combo - 1) * 3;
+    fb.className = 'feedback show ok'; fb.textContent = '✓ Correct !';
+    document.getElementById('g6Score').textContent = G6.score;
+    document.getElementById('g6Combo').textContent = '×' + G6.combo;
+  } else {
+    btn.classList.add('wrong');
+    G6.combo = 0;
+    document.getElementById('g6Combo').textContent = '×0';
+    fb.className = 'feedback show ko'; fb.textContent = '✗ La réponse était : ' + (G6.current.v ? 'VRAI' : 'FAUX') + '.';
+  }
+  setTimeout(()=>{ if(G6.running) g6NewStatement(); }, correct ? 500 : 1100);
+}
+function g6End(){
+  G6.running = false;
+  document.getElementById('g6Play').style.display = 'none';
+  document.getElementById('g6Over').style.display = 'block';
+  document.getElementById('g6Final').textContent = G6.score;
+  let msg = G6.score >= 180 ? '🌟 Imbattable !' : G6.score >= 110 ? '🔥 Solide !' : G6.score >= 50 ? '👍 Pas mal.' : '⚠ Revois les notions.';
+  document.getElementById('g6Rank').textContent = msg;
+  if(G6.score >= 100) TPScore.add('⚖️');
+}
+
+/* ====================================================================
+   JEU 7 — MEMORY DES FONCTIONS
+==================================================================== */
+const G7 = { moves:0, pairs:0, time:0, timer:null, first:null, second:null, lock:false, running:false };
+const MEM_PAIRS = [
+  {fn:'SOMME', desc:'Additionne une plage de cellules'},
+  {fn:'MOYENNE', desc:'Calcule la moyenne d\'une plage'},
+  {fn:'MIN', desc:'Donne la plus petite valeur'},
+  {fn:'MAX', desc:'Donne la plus grande valeur'},
+  {fn:'NB', desc:'Compte les cellules contenant un nombre'},
+  {fn:'ARRONDI', desc:'Arrondit un nombre décimal'}
+];
+function g7Shuffle(arr){ for(let i = arr.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [arr[i],arr[j]] = [arr[j],arr[i]]; } return arr; }
+function g7Start(){
+  G7.moves = 0; G7.pairs = 0; G7.time = 0; G7.first = null; G7.second = null; G7.lock = false; G7.running = true;
+  document.getElementById('g7Start').style.display = 'none';
+  document.getElementById('g7Over').style.display = 'none';
+  document.getElementById('g7Play').style.display = 'block';
+  document.getElementById('g7Moves').textContent = '0';
+  document.getElementById('g7Pairs').textContent = '0';
+  document.getElementById('g7Time').textContent = '0s';
+  // Construire les cartes
+  let cards = [];
+  MEM_PAIRS.forEach((p, i) => {
+    cards.push({id:i, type:'fn', text:p.fn});
+    cards.push({id:i, type:'desc', text:p.desc});
+  });
+  cards = g7Shuffle(cards);
+  const board = document.getElementById('g7Board');
+  board.innerHTML = cards.map((c, idx) =>
+    '<div class="mem-card" data-id="' + c.id + '" data-idx="' + idx + '" onclick="g7Flip(this)">' +
+      '<div class="mc-inner">' +
+        '<div class="mc-face mc-back">?</div>' +
+        '<div class="mc-face mc-front ' + (c.type === 'fn' ? 'fn' : '') + '">' + c.text + '</div>' +
+      '</div>' +
+    '</div>'
+  ).join('');
+  if(G7.timer) clearInterval(G7.timer);
+  G7.timer = setInterval(()=>{ G7.time++; document.getElementById('g7Time').textContent = G7.time + 's'; }, 1000);
+}
+function g7Flip(card){
+  if(G7.lock || !G7.running) return;
+  if(card.classList.contains('flipped') || card.classList.contains('matched')) return;
+  card.classList.add('flipped');
+  if(!G7.first){ G7.first = card; return; }
+  G7.second = card;
+  G7.moves++;
+  document.getElementById('g7Moves').textContent = G7.moves;
+  G7.lock = true;
+  if(G7.first.dataset.id === G7.second.dataset.id){
+    setTimeout(()=>{
+      G7.first.classList.add('matched');
+      G7.second.classList.add('matched');
+      G7.first = null; G7.second = null; G7.lock = false;
+      G7.pairs++;
+      document.getElementById('g7Pairs').textContent = G7.pairs;
+      if(G7.pairs === MEM_PAIRS.length) g7End();
+    }, 500);
+  } else {
+    setTimeout(()=>{
+      G7.first.classList.remove('flipped');
+      G7.second.classList.remove('flipped');
+      G7.first = null; G7.second = null; G7.lock = false;
+    }, 900);
+  }
+}
+function g7End(){
+  G7.running = false;
+  if(G7.timer) clearInterval(G7.timer);
+  const score = Math.max(0, 1000 - G7.moves * 20 - G7.time * 2);
+  document.getElementById('g7Play').style.display = 'none';
+  document.getElementById('g7Over').style.display = 'block';
+  document.getElementById('g7Final').textContent = score;
+  let msg = score >= 700 ? '🌟 Mémoire d\'éléphant !' : score >= 450 ? '🔥 Excellent !' : score >= 200 ? '👍 Bien joué.' : '⚠ Réessaie pour un meilleur score.';
+  document.getElementById('g7Rank').textContent = msg + ' (' + G7.moves + ' coups, ' + G7.time + 's)';
+  if(score >= 400) TPScore.add('🃏');
+}
+
+/* ====================================================================
+   JEU 8 — CONSTRUIS LA FORMULE
+==================================================================== */
+const G8 = { score:0, round:0, solved:0, building:[], current:null };
+const BUILD_CHALLENGES = [
+  {goal:'Additionne les cellules <strong>A1 à A10</strong>.', bricks:['=','SOMME','(','A1:A10',')','+','MOYENNE'], answer:['=','SOMME','(','A1:A10',')']},
+  {goal:'Calcule la <strong>moyenne</strong> de la plage <strong>B1 à B5</strong>.', bricks:['=','MOYENNE','SOMME','(','B1:B5',')'], answer:['=','MOYENNE','(','B1:B5',')']},
+  {goal:'Trouve la <strong>plus grande valeur</strong> de <strong>C1 à C8</strong>.', bricks:['=','MAX','MIN','(','C1:C8',')'], answer:['=','MAX','(','C1:C8',')']},
+  {goal:'Additionne <strong>A1</strong> et <strong>B1</strong> (sans fonction).', bricks:['=','A1','+','B1','SOMME','('], answer:['=','A1','+','B1']},
+  {goal:'Multiplie <strong>A2</strong> par <strong>3</strong>.', bricks:['=','A2','*','3','+','MAX'], answer:['=','A2','*','3']}
+];
+function g8Start(){
+  G8.score = 0; G8.round = 0; G8.solved = 0;
+  document.getElementById('g8Start').style.display = 'none';
+  document.getElementById('g8Over').style.display = 'none';
+  document.getElementById('g8Play').style.display = 'block';
+  document.getElementById('g8Score').textContent = '0';
+  document.getElementById('g8Solved').textContent = '0';
+  g8LoadChallenge();
+}
+function g8LoadChallenge(){
+  if(G8.round >= BUILD_CHALLENGES.length){ g8End(); return; }
+  G8.current = BUILD_CHALLENGES[G8.round];
+  G8.building = [];
+  document.getElementById('g8Round').textContent = G8.round + 1;
+  document.getElementById('g8Goal').innerHTML = '🎯 ' + G8.current.goal;
+  // Briques mélangées
+  const bricks = g7Shuffle([...G8.current.bricks]);
+  document.getElementById('g8Bricks').innerHTML = bricks.map((b, i) =>
+    '<button class="build-brick" data-brick="' + b + '" onclick="g8AddBrick(this)">' + b + '</button>'
+  ).join('');
+  g8RenderZone();
+  document.getElementById('g8NextBtn').style.display = 'none';
+  const fb = document.getElementById('fb_g8'); fb.classList.remove('show');
+}
+function g8RenderZone(){
+  const zone = document.getElementById('g8Zone');
+  if(G8.building.length === 0){
+    zone.innerHTML = '<span class="build-placeholder">Clique les briques ci-dessous…</span>';
+  } else {
+    zone.innerHTML = G8.building.map(b => '<span class="build-token">' + b + '</span>').join('');
+  }
+}
+function g8AddBrick(btn){
+  G8.building.push(btn.dataset.brick);
+  btn.disabled = true;
+  g8RenderZone();
+}
+function g8ResetBuild(){
+  G8.building = [];
+  G8.score = Math.max(0, G8.score - 10);
+  document.getElementById('g8Score').textContent = G8.score;
+  document.querySelectorAll('#g8Bricks .build-brick').forEach(b => b.disabled = false);
+  g8RenderZone();
+}
+function g8Check(){
+  const fb = document.getElementById('fb_g8');
+  const ok = JSON.stringify(G8.building) === JSON.stringify(G8.current.answer);
+  if(ok){
+    G8.score += 20; G8.solved++;
+    document.getElementById('g8Score').textContent = G8.score;
+    document.getElementById('g8Solved').textContent = G8.solved;
+    fb.className = 'feedback show ok';
+    fb.innerHTML = '✓ Formule correcte : <code>' + G8.current.answer.join('') + '</code>';
+    document.getElementById('g8NextBtn').style.display = '';
+    document.querySelectorAll('#g8Bricks .build-brick').forEach(b => b.disabled = true);
+  } else {
+    fb.className = 'feedback show ko';
+    fb.textContent = '✗ Pas tout à fait. Vérifie l\'ordre des briques (et n\'oublie pas le = au début).';
+  }
+}
+function g8Next(){
+  G8.round++;
+  g8LoadChallenge();
+}
+function g8End(){
+  document.getElementById('g8Play').style.display = 'none';
+  document.getElementById('g8Over').style.display = 'block';
+  document.getElementById('g8Final').textContent = G8.score;
+  let msg = G8.score >= 90 ? '🌟 Architecte des formules !' : G8.score >= 60 ? '🔥 Très bien !' : G8.score >= 30 ? '👍 Correct.' : '⚠ Reprends la syntaxe.';
+  document.getElementById('g8Rank').textContent = msg;
+  if(G8.score >= 60) TPScore.add('🧩');
+}
+
+// Enter dans les inputs des nouveaux jeux
+['g4Input','g5Input'].forEach(id => {
+  const el = document.getElementById(id);
+  if(el) el.addEventListener('keydown', e=>{
+    if(e.key === 'Enter'){ e.preventDefault(); (id === 'g4Input' ? g4Submit : g5Submit)(); }
+  });
 });
 </script>
 

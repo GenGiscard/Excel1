@@ -411,6 +411,9 @@ code{
   display:flex; align-items:center; gap:10px;
 }
 .demo-caption::before{content:'▸'; color:var(--gold); font-size:18px}
+/* Les strong dans la légende doivent rester visibles sur fond sombre */
+.demo-caption strong, .demo-caption b{color:#ffba6e; font-weight:700}
+.demo-caption code{background:rgba(255,255,255,0.1); color:#ffd9a0; padding:1px 6px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:0.9em}
 .demo-controls{
   display:flex; gap:10px; margin-top:16px; align-items:center;
 }

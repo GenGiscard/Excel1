@@ -1084,6 +1084,46 @@ code{
 .build-brick:hover{background:var(--accent); color:#fff}
 .build-brick:disabled{opacity:0.35; cursor:not-allowed}
 
+/* === Jeu 10 : Trouve la cellule === */
+.find-question{
+  text-align:center; font-size:18px; padding:14px; margin:14px 0;
+  background:var(--accent-soft); border-radius:10px;
+  color:var(--ink); font-weight:500;
+}
+.find-question strong{color:var(--accent-deep)}
+.find-question code{background:#fff; padding:2px 8px; border-radius:4px; font-family:'JetBrains Mono',monospace; color:var(--accent-deep); font-size:0.9em}
+.find-grid{display:grid; gap:6px; max-width:420px; margin:14px auto; grid-template-columns:32px repeat(3, 1fr)}
+.find-grid .fg-head{background:#f0eee2; color:var(--ink-soft); border:1px solid var(--grid); border-radius:4px; height:36px; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600}
+.find-grid .fg-cell{background:var(--paper); border:1px solid var(--grid); border-radius:4px; height:44px; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:16px; font-weight:600; color:var(--ink); cursor:pointer; transition:all .15s}
+.find-grid .fg-cell:hover{background:var(--accent-soft); border-color:var(--accent)}
+.find-grid .fg-cell.correct{background:var(--accent); color:#fff; border-color:var(--accent-deep); animation:popIn .35s}
+.find-grid .fg-cell.wrong{background:var(--warn-soft); color:var(--warn); border-color:var(--warn); animation:shake .35s}
+@keyframes popIn{0%{transform:scale(1)} 50%{transform:scale(1.1)} 100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)}}
+
+/* === Jeu 11 : Taille de plage === */
+.range-display{
+  text-align:center; font-family:'JetBrains Mono',monospace;
+  font-size:36px; font-weight:700; color:var(--accent-deep);
+  background:var(--accent-soft); padding:24px;
+  border-radius:12px; margin:14px auto; max-width:300px;
+  letter-spacing:0.05em;
+}
+
+/* === Jeu 12 : Marathon === */
+.marathon-progress{height:10px; background:var(--line-soft); border-radius:6px; overflow:hidden; margin:14px 0}
+.marathon-fill{height:100%; background:linear-gradient(90deg, var(--accent), var(--gold)); width:0%; transition:width .4s}
+.marathon-card{background:var(--paper); border:2px solid var(--accent); border-radius:12px; padding:24px; margin:14px 0; min-height:180px; box-shadow:0 4px 12px -6px rgba(30,109,74,0.15)}
+.marathon-card h4{font-family:'Fraunces',serif; font-size:18px; margin-bottom:10px; color:var(--accent-deep)}
+.marathon-card .mc-instr{font-size:14px; color:var(--ink-soft); margin-bottom:12px; line-height:1.5}
+.marathon-card .mc-actions{display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:center; margin-top:14px}
+.marathon-card input[type=text], .marathon-card input[type=number]{padding:8px 14px; border:1px solid var(--line); border-radius:6px; font-family:'Outfit',sans-serif; font-size:15px; min-width:120px}
+.marathon-card .mc-opts{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px}
+.marathon-card .mc-opt{background:var(--paper); border:2px solid var(--line); border-radius:8px; padding:10px 14px; cursor:pointer; font-family:'JetBrains Mono',monospace; font-weight:600; text-align:center; transition:all .12s}
+.marathon-card .mc-opt:hover{border-color:var(--accent); background:var(--accent-soft)}
+.marathon-card .mc-opt.correct{background:var(--accent); color:#fff; border-color:var(--accent-deep)}
+.marathon-card .mc-opt.wrong{background:var(--warn-soft); color:var(--warn); border-color:var(--warn)}
+
 /* === Détective === */
 .detective-board{
   background:linear-gradient(135deg, #f5f8ff 0%, #fff 60%);
@@ -1605,6 +1645,15 @@ code{
       <li><a href="#game1"><span class="num">🎯</span>Cible-Formule</a></li>
       <li><a href="#game2"><span class="num">⚡</span>Sprint Fonctions</a></li>
       <li><a href="#game3"><span class="num">🔍</span>Détective</a></li>
+      <li><a href="#game4"><span class="num">📍</span>Référence Express</a></li>
+      <li><a href="#game5"><span class="num">🧮</span>Quel résultat ?</a></li>
+      <li><a href="#game6"><span class="num">⚖️</span>Vrai ou Faux</a></li>
+      <li><a href="#game7"><span class="num">🃏</span>Memory</a></li>
+      <li><a href="#game8"><span class="num">🧩</span>Construis</a></li>
+      <li><a href="#game9"><span class="num">🎪</span>Quelle fonction ?</a></li>
+      <li><a href="#game10"><span class="num">🎯</span>Trouve la cellule</a></li>
+      <li><a href="#game11"><span class="num">🎰</span>Taille de plage</a></li>
+      <li><a href="#game12"><span class="num">🏆</span>Marathon</a></li>
       <li class="group-label">Évaluation</li>
       <li><a href="#eval"><span class="num">★</span>Entraînement noté</a></li>
       <li><a href="#evalfinal"><span class="num">🔒</span>Évaluation officielle</a></li>
@@ -2622,7 +2671,7 @@ code{
     <div class="arcade-lock-icon">🔒</div>
     <h2>Salle d'arcade verrouillée</h2>
     <p>
-      Les <strong>8 jeux</strong> de l'arcade se débloquent une fois que tu as terminé
+      Les <strong>12 jeux</strong> de l'arcade se débloquent une fois que tu as terminé
       les <strong>7 exercices</strong> de la partie « Pratique ».
     </p>
     <div class="arcade-lock-progress">
@@ -3033,6 +3082,185 @@ code{
         <div class="final-score" id="g8Final">0</div>
         <div class="rank-msg" id="g8Rank"></div>
         <button class="btn-fire" style="padding:12px 24px; font-size:15px; border:none; border-radius:8px; color:#fff; font-weight:600; cursor:pointer; margin-top:12px" onclick="g8Start()">↺ Rejouer</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ====================================================================
+     ARCADE — JEU 9 : QUELLE FONCTION UTILISER ?
+==================================================================== -->
+<section id="game9" class="arcade-section">
+  <div class="section-tag">▶ Arcade · Jeu 9</div>
+  <h2>🎪 Quelle fonction utiliser ?</h2>
+  <div class="game-card">
+    <div class="game-head">
+      <div class="icon" style="background:#ffe9d6">🎪</div>
+      <div>
+        <h3>Choisis la bonne fonction !</h3>
+        <div class="sub">60 secondes · une situation, 4 fonctions, une seule juste</div>
+      </div>
+    </div>
+    <div class="game-rules">
+      <strong>Mission :</strong> une situation est décrite. Choisis la <strong>fonction du tableur</strong> qui correspond le mieux. <strong>10 points</strong> par bonne réponse, +<strong>3</strong> par combo.
+    </div>
+    <div class="game-hud">
+      <div class="hud-pill timer"><span class="lbl">Temps</span><span class="val" id="g9Time">60s</span></div>
+      <div class="hud-pill score"><span class="lbl">Score</span><span class="val" id="g9Score">0</span></div>
+      <div class="hud-pill combo"><span class="lbl">Combo</span><span class="val" id="g9Combo">×0</span></div>
+    </div>
+    <div class="sprint-arena">
+      <div class="sprint-start" id="g9Start">
+        <p style="font-size:16px; color:var(--ink-soft); margin-bottom:16px">Prêt·e à choisir la bonne fonction ?</p>
+        <button class="btn-fire" style="padding:14px 28px; font-size:16px; border:none; border-radius:10px; color:#fff; font-weight:600; cursor:pointer" onclick="g9Start()">▶ Démarrer</button>
+      </div>
+      <div id="g9Play" style="display:none">
+        <div class="timer-bar"><div class="fill" id="g9TimerFill"></div></div>
+        <div class="sprint-question" id="g9Question"></div>
+        <div class="sprint-options" id="g9Options"></div>
+      </div>
+      <div class="sprint-over" id="g9Over" style="display:none">
+        <div style="font-size:14px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.1em">Terminé</div>
+        <div class="final-score" id="g9Final">0</div>
+        <div class="rank-msg" id="g9Rank"></div>
+        <button class="btn-fire" style="padding:12px 24px; font-size:15px; border:none; border-radius:8px; color:#fff; font-weight:600; cursor:pointer; margin-top:12px" onclick="g9Start()">↺ Rejouer</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ====================================================================
+     ARCADE — JEU 10 : TROUVE LA CELLULE
+==================================================================== -->
+<section id="game10" class="arcade-section">
+  <div class="section-tag">▶ Arcade · Jeu 10</div>
+  <h2>🎯 Trouve la cellule</h2>
+  <div class="game-card">
+    <div class="game-head">
+      <div class="icon" style="background:#e6f4ec">🎯</div>
+      <div>
+        <h3>Clique la bonne cellule !</h3>
+        <div class="sub">60 secondes · trouve le MIN, le MAX, le 2ᵉ plus grand…</div>
+      </div>
+    </div>
+    <div class="game-rules">
+      <strong>Mission :</strong> une mini-grille de valeurs s'affiche avec une consigne. Clique la <strong>bonne cellule</strong>. <strong>10 points</strong> par bonne réponse.
+    </div>
+    <div class="game-hud">
+      <div class="hud-pill timer"><span class="lbl">Temps</span><span class="val" id="g10Time">60s</span></div>
+      <div class="hud-pill score"><span class="lbl">Score</span><span class="val" id="g10Score">0</span></div>
+      <div class="hud-pill combo"><span class="lbl">Combo</span><span class="val" id="g10Combo">×0</span></div>
+    </div>
+    <div class="sprint-arena">
+      <div class="sprint-start" id="g10Start">
+        <p style="font-size:16px; color:var(--ink-soft); margin-bottom:16px">Prêt·e à scanner les grilles à toute vitesse ?</p>
+        <button class="btn-fire" style="padding:14px 28px; font-size:16px; border:none; border-radius:10px; color:#fff; font-weight:600; cursor:pointer" onclick="g10Start()">▶ Démarrer</button>
+      </div>
+      <div id="g10Play" style="display:none">
+        <div class="timer-bar"><div class="fill" id="g10TimerFill"></div></div>
+        <div class="find-question" id="g10Question"></div>
+        <div id="g10Grid" class="find-grid"></div>
+        <div class="feedback" id="fb_g10" style="margin-top:10px"></div>
+      </div>
+      <div class="sprint-over" id="g10Over" style="display:none">
+        <div style="font-size:14px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.1em">Terminé</div>
+        <div class="final-score" id="g10Final">0</div>
+        <div class="rank-msg" id="g10Rank"></div>
+        <button class="btn-fire" style="padding:12px 24px; font-size:15px; border:none; border-radius:8px; color:#fff; font-weight:600; cursor:pointer; margin-top:12px" onclick="g10Start()">↺ Rejouer</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ====================================================================
+     ARCADE — JEU 11 : TAILLE DE PLAGE
+==================================================================== -->
+<section id="game11" class="arcade-section">
+  <div class="section-tag">▶ Arcade · Jeu 11</div>
+  <h2>🎰 Taille de plage</h2>
+  <div class="game-card">
+    <div class="game-head">
+      <div class="icon" style="background:#fff5d6">🎰</div>
+      <div>
+        <h3>Combien de cellules ?</h3>
+        <div class="sub">60 secondes · compte les cellules d'une plage</div>
+      </div>
+    </div>
+    <div class="game-rules">
+      <strong>Mission :</strong> une notation de plage s'affiche (ex : <code>A1:C5</code>). Réponds par le <strong>nombre exact de cellules</strong>. Indice : (nb colonnes) × (nb lignes).
+    </div>
+    <div class="game-hud">
+      <div class="hud-pill timer"><span class="lbl">Temps</span><span class="val" id="g11Time">60s</span></div>
+      <div class="hud-pill score"><span class="lbl">Score</span><span class="val" id="g11Score">0</span></div>
+      <div class="hud-pill combo"><span class="lbl">Combo</span><span class="val" id="g11Combo">×0</span></div>
+    </div>
+    <div class="sprint-arena">
+      <div class="sprint-start" id="g11Start">
+        <p style="font-size:16px; color:var(--ink-soft); margin-bottom:16px">Prêt·e à compter des plages ?</p>
+        <button class="btn-fire" style="padding:14px 28px; font-size:16px; border:none; border-radius:10px; color:#fff; font-weight:600; cursor:pointer" onclick="g11Start()">▶ Démarrer</button>
+      </div>
+      <div id="g11Play" style="display:none">
+        <div class="timer-bar"><div class="fill" id="g11TimerFill"></div></div>
+        <div class="range-display" id="g11Range"></div>
+        <div class="case-formula-row" style="justify-content:center; margin-top:12px">
+          <span style="font-size:14px; color:var(--ink-soft); font-weight:600">Nombre de cellules :</span>
+          <input type="number" id="g11Input" placeholder="?" autocomplete="off" style="max-width:120px">
+          <button class="btn-fire" onclick="g11Submit()">✓</button>
+        </div>
+        <div class="feedback" id="fb_g11" style="margin-top:10px"></div>
+      </div>
+      <div class="sprint-over" id="g11Over" style="display:none">
+        <div style="font-size:14px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.1em">Terminé</div>
+        <div class="final-score" id="g11Final">0</div>
+        <div class="rank-msg" id="g11Rank"></div>
+        <button class="btn-fire" style="padding:12px 24px; font-size:15px; border:none; border-radius:8px; color:#fff; font-weight:600; cursor:pointer; margin-top:12px" onclick="g11Start()">↺ Rejouer</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ====================================================================
+     ARCADE — JEU 12 : MARATHON DES FORMULES
+==================================================================== -->
+<section id="game12" class="arcade-section">
+  <div class="section-tag">▶ Arcade · Jeu 12</div>
+  <h2>🏆 Marathon des formules</h2>
+  <div class="game-card">
+    <div class="game-head">
+      <div class="icon" style="background:#f0e6ff">🏆</div>
+      <div>
+        <h3>10 défis enchaînés !</h3>
+        <div class="sub">Le grand final de l'arcade · qualité avant vitesse</div>
+      </div>
+    </div>
+    <div class="game-rules">
+      <strong>Mission :</strong> enchaîne <strong>10 défis</strong> mêlant lecture de formules, choix de fonction, calculs et notations. Chaque défi vaut <strong>10 points</strong>. Score max : <strong>100</strong>.
+    </div>
+    <div class="game-hud">
+      <div class="hud-pill score"><span class="lbl">Score</span><span class="val" id="g12Score">0</span></div>
+      <div class="hud-pill"><span class="lbl">Défi</span><span class="val" id="g12Round">0</span>/10</div>
+      <div class="hud-pill"><span class="lbl">Réussis</span><span class="val" id="g12Good">0</span></div>
+    </div>
+    <div class="sprint-arena">
+      <div class="sprint-start" id="g12Start">
+        <p style="font-size:16px; color:var(--ink-soft); margin-bottom:16px">Prêt·e pour le marathon final ? 10 défis variés t'attendent.</p>
+        <button class="btn-fire" style="padding:14px 28px; font-size:16px; border:none; border-radius:10px; color:#fff; font-weight:600; cursor:pointer" onclick="g12Start()">▶ Démarrer le marathon</button>
+      </div>
+      <div id="g12Play" style="display:none">
+        <div class="marathon-progress"><div class="marathon-fill" id="g12Progress"></div></div>
+        <div class="marathon-card" id="g12Card"></div>
+        <div class="feedback" id="fb_g12" style="margin-top:10px"></div>
+      </div>
+      <div class="sprint-over" id="g12Over" style="display:none">
+        <div style="font-size:14px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.1em">Marathon terminé</div>
+        <div class="final-score" id="g12Final">0</div>
+        <div class="rank-msg" id="g12Rank"></div>
+        <p style="font-size:13px; color:var(--ink-soft); margin-top:12px">Réussis : <strong id="g12FinalGood">0</strong>/10</p>
+        <button class="btn-fire" style="padding:12px 24px; font-size:15px; border:none; border-radius:8px; color:#fff; font-weight:600; cursor:pointer; margin-top:12px" onclick="g12Start()">↺ Rejouer</button>
       </div>
     </div>
   </div>
@@ -6276,6 +6504,316 @@ function g8End(){
   if(el) el.addEventListener('keydown', e=>{
     if(e.key === 'Enter'){ e.preventDefault(); (id === 'g4Input' ? g4Submit : g5Submit)(); }
   });
+});
+
+/* ====================================================================
+   JEU 9 — QUELLE FONCTION UTILISER ?
+==================================================================== */
+const G9 = { score:0, combo:0, timeLeft:60, timer:null, running:false, current:null };
+const G9_QUESTIONS = [
+  {q:'Pour additionner les notes d\'un élève (B2 à E2)…', opts:['SOMME','MOYENNE','MAX','NB'], correct:0},
+  {q:'Pour connaître la <strong>moyenne</strong> de la classe en maths…', opts:['SOMME','MOYENNE','MIN','MAX'], correct:1},
+  {q:'Pour trouver la <strong>plus petite note</strong> obtenue…', opts:['MIN','MAX','MOYENNE','NB'], correct:0},
+  {q:'Pour trouver le <strong>record absolu</strong> de la classe…', opts:['MIN','MAX','SOMME','MOYENNE'], correct:1},
+  {q:'Pour compter combien d\'élèves ont rendu leur copie (cellules avec un nombre)…', opts:['SOMME','NB','MAX','MOYENNE'], correct:1},
+  {q:'Pour calculer le <strong>total dépensé</strong> sur l\'année…', opts:['MOYENNE','SOMME','NB','MIN'], correct:1},
+  {q:'Pour additionner les ventes de la semaine (B1 à B7)…', opts:['SOMME','MOYENNE','NB','MIN'], correct:0},
+  {q:'Pour trouver la <strong>température la plus basse</strong> de la semaine…', opts:['MAX','MIN','MOYENNE','SOMME'], correct:1},
+  {q:'Pour savoir <strong>combien de notes</strong> ont été saisies dans la liste…', opts:['SOMME','MOYENNE','NB','MAX'], correct:2},
+  {q:'Pour calculer l\'<strong>écart</strong> entre la meilleure et la plus mauvaise note…', opts:['SOMME','MAX-MIN','MOYENNE','NB'], correct:1},
+  {q:'Pour savoir combien il y a <strong>de produits</strong> dans une liste…', opts:['SOMME','NB','MOYENNE','MAX'], correct:1},
+  {q:'Pour additionner les heures travaillées du mois…', opts:['MOYENNE','SOMME','NB','MIN'], correct:1}
+];
+function g9NewQuestion(){
+  G9.current = G9_QUESTIONS[Math.floor(Math.random()*G9_QUESTIONS.length)];
+  document.getElementById('g9Question').innerHTML = G9.current.q;
+  const opts = document.getElementById('g9Options'); opts.innerHTML = '';
+  G9.current.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'sprint-opt'; b.textContent = opt;
+    b.style.fontFamily = "'JetBrains Mono',monospace"; b.style.fontWeight = '600';
+    b.onclick = () => g9Answer(i, b);
+    opts.appendChild(b);
+  });
+}
+function g9Start(){
+  G9.score = 0; G9.combo = 0; G9.timeLeft = 60; G9.running = true;
+  document.getElementById('g9Start').style.display = 'none';
+  document.getElementById('g9Over').style.display = 'none';
+  document.getElementById('g9Play').style.display = 'block';
+  document.getElementById('g9Score').textContent = '0';
+  document.getElementById('g9Combo').textContent = '×0';
+  document.getElementById('g9Time').textContent = '60s';
+  document.getElementById('g9TimerFill').style.width = '100%';
+  g9NewQuestion();
+  if(G9.timer) clearInterval(G9.timer);
+  G9.timer = setInterval(()=>{
+    G9.timeLeft -= 0.25;
+    document.getElementById('g9Time').textContent = Math.max(0, Math.ceil(G9.timeLeft)) + 's';
+    document.getElementById('g9TimerFill').style.width = Math.max(0, G9.timeLeft/60*100) + '%';
+    if(G9.timeLeft <= 0){ clearInterval(G9.timer); g9End(); }
+  }, 250);
+}
+function g9Answer(idx, btn){
+  if(!G9.running) return;
+  const correct = (idx === G9.current.correct);
+  document.querySelectorAll('#g9Options .sprint-opt').forEach(b => b.onclick = null);
+  if(correct){
+    btn.classList.add('correct');
+    G9.combo++; G9.score += 10 + (G9.combo - 1) * 3;
+    document.getElementById('g9Score').textContent = G9.score;
+    document.getElementById('g9Combo').textContent = '×' + G9.combo;
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('#g9Options .sprint-opt').forEach((b, i) => { if(i === G9.current.correct) b.classList.add('correct'); });
+    G9.combo = 0; document.getElementById('g9Combo').textContent = '×0';
+  }
+  setTimeout(()=>{ if(G9.running) g9NewQuestion(); }, correct ? 500 : 1100);
+}
+function g9End(){
+  G9.running = false;
+  document.getElementById('g9Play').style.display = 'none';
+  document.getElementById('g9Over').style.display = 'block';
+  document.getElementById('g9Final').textContent = G9.score;
+  document.getElementById('g9Rank').textContent = G9.score >= 180 ? '🌟 Tu choisis comme un pro !' : G9.score >= 110 ? '🔥 Excellent !' : G9.score >= 50 ? '👍 Pas mal.' : '⚠ Revois les rôles des fonctions.';
+  if(G9.score >= 100) TPScore.add('🎪');
+}
+
+/* ====================================================================
+   JEU 10 — TROUVE LA CELLULE
+==================================================================== */
+const G10 = { score:0, combo:0, timeLeft:60, timer:null, running:false, target:null };
+function g10NewQuestion(){
+  const vals = new Set();
+  while(vals.size < 9) vals.add(Math.floor(Math.random()*99) + 1);
+  const arr = [...vals];
+  const types = [
+    ()=>({label:'le <strong>MIN</strong> (plus petite valeur)', target:arr.indexOf(Math.min(...arr))}),
+    ()=>({label:'le <strong>MAX</strong> (plus grande valeur)', target:arr.indexOf(Math.max(...arr))}),
+    ()=>{ const sorted = [...arr].sort((a,b)=>b-a); return {label:'le <strong>2ᵉ plus grand</strong>', target:arr.indexOf(sorted[1])}; },
+    ()=>{ const sorted = [...arr].sort((a,b)=>a-b); return {label:'le <strong>2ᵉ plus petit</strong>', target:arr.indexOf(sorted[1])}; },
+    ()=>{ const v = arr[Math.floor(Math.random()*9)]; return {label:'la cellule qui contient la valeur <code>' + v + '</code>', target:arr.indexOf(v)}; }
+  ];
+  const q = types[Math.floor(Math.random()*types.length)]();
+  G10.target = q.target;
+  document.getElementById('g10Question').innerHTML = 'Clique sur ' + q.label;
+  let html = '<div class="fg-head"></div><div class="fg-head">A</div><div class="fg-head">B</div><div class="fg-head">C</div>';
+  for(let r = 0; r < 3; r++){
+    html += '<div class="fg-head">' + (r+1) + '</div>';
+    for(let c = 0; c < 3; c++){
+      const idx = r*3 + c;
+      html += '<div class="fg-cell" data-idx="' + idx + '" onclick="g10Click(this)">' + arr[idx] + '</div>';
+    }
+  }
+  document.getElementById('g10Grid').innerHTML = html;
+}
+function g10Click(cell){
+  if(!G10.running) return;
+  const idx = parseInt(cell.dataset.idx);
+  const fb = document.getElementById('fb_g10');
+  document.querySelectorAll('#g10Grid .fg-cell').forEach(c => c.onclick = null);
+  if(idx === G10.target){
+    cell.classList.add('correct');
+    G10.combo++; G10.score += 10 + (G10.combo - 1) * 3;
+    document.getElementById('g10Score').textContent = G10.score;
+    document.getElementById('g10Combo').textContent = '×' + G10.combo;
+    fb.className = 'feedback show ok'; fb.textContent = '✓ Bien vu !';
+  } else {
+    cell.classList.add('wrong');
+    const correct = document.querySelector('#g10Grid .fg-cell[data-idx="' + G10.target + '"]');
+    if(correct) correct.classList.add('correct');
+    G10.combo = 0; document.getElementById('g10Combo').textContent = '×0';
+    fb.className = 'feedback show ko'; fb.textContent = '✗ La bonne réponse était la cellule en vert.';
+  }
+  setTimeout(()=>{ if(G10.running) g10NewQuestion(); }, 700);
+}
+function g10Start(){
+  G10.score = 0; G10.combo = 0; G10.timeLeft = 60; G10.running = true;
+  document.getElementById('g10Start').style.display = 'none';
+  document.getElementById('g10Over').style.display = 'none';
+  document.getElementById('g10Play').style.display = 'block';
+  document.getElementById('g10Score').textContent = '0';
+  document.getElementById('g10Combo').textContent = '×0';
+  document.getElementById('g10Time').textContent = '60s';
+  document.getElementById('g10TimerFill').style.width = '100%';
+  g10NewQuestion();
+  if(G10.timer) clearInterval(G10.timer);
+  G10.timer = setInterval(()=>{
+    G10.timeLeft -= 0.25;
+    document.getElementById('g10Time').textContent = Math.max(0, Math.ceil(G10.timeLeft)) + 's';
+    document.getElementById('g10TimerFill').style.width = Math.max(0, G10.timeLeft/60*100) + '%';
+    if(G10.timeLeft <= 0){ clearInterval(G10.timer); g10End(); }
+  }, 250);
+}
+function g10End(){
+  G10.running = false;
+  document.getElementById('g10Play').style.display = 'none';
+  document.getElementById('g10Over').style.display = 'block';
+  document.getElementById('g10Final').textContent = G10.score;
+  document.getElementById('g10Rank').textContent = G10.score >= 180 ? '🌟 Œil affûté !' : G10.score >= 110 ? '🔥 Très bien !' : G10.score >= 50 ? '👍 Correct.' : '⚠ Entraîne ton œil.';
+  if(G10.score >= 100) TPScore.add('🎯');
+}
+
+/* ====================================================================
+   JEU 11 — TAILLE DE PLAGE
+==================================================================== */
+const G11 = { score:0, combo:0, timeLeft:60, timer:null, running:false, answer:null };
+function g11NewRange(){
+  const c1 = Math.floor(Math.random()*5);
+  const c2 = c1 + Math.floor(Math.random()*4);
+  const r1 = Math.floor(Math.random()*8) + 1;
+  const r2 = r1 + Math.floor(Math.random()*8);
+  const cells = (c2 - c1 + 1) * (r2 - r1 + 1);
+  G11.answer = cells;
+  document.getElementById('g11Range').textContent = String.fromCharCode(65+c1) + r1 + ':' + String.fromCharCode(65+c2) + r2;
+  document.getElementById('g11Input').value = '';
+  document.getElementById('g11Input').focus();
+}
+function g11Start(){
+  G11.score = 0; G11.combo = 0; G11.timeLeft = 60; G11.running = true;
+  document.getElementById('g11Start').style.display = 'none';
+  document.getElementById('g11Over').style.display = 'none';
+  document.getElementById('g11Play').style.display = 'block';
+  document.getElementById('g11Score').textContent = '0';
+  document.getElementById('g11Combo').textContent = '×0';
+  document.getElementById('g11Time').textContent = '60s';
+  document.getElementById('g11TimerFill').style.width = '100%';
+  g11NewRange();
+  if(G11.timer) clearInterval(G11.timer);
+  G11.timer = setInterval(()=>{
+    G11.timeLeft -= 0.25;
+    document.getElementById('g11Time').textContent = Math.max(0, Math.ceil(G11.timeLeft)) + 's';
+    document.getElementById('g11TimerFill').style.width = Math.max(0, G11.timeLeft/60*100) + '%';
+    if(G11.timeLeft <= 0){ clearInterval(G11.timer); g11End(); }
+  }, 250);
+}
+function g11Submit(){
+  if(!G11.running) return;
+  const val = parseInt(document.getElementById('g11Input').value.trim());
+  const fb = document.getElementById('fb_g11');
+  if(val === G11.answer){
+    G11.combo++; G11.score += 10 + (G11.combo - 1) * 3;
+    fb.className = 'feedback show ok'; fb.textContent = '✓ Exact !';
+    document.getElementById('g11Score').textContent = G11.score;
+    document.getElementById('g11Combo').textContent = '×' + G11.combo;
+    g11NewRange();
+  } else {
+    G11.combo = 0; document.getElementById('g11Combo').textContent = '×0';
+    fb.className = 'feedback show ko'; fb.textContent = '✗ C\'était ' + G11.answer + ' cellules.';
+    g11NewRange();
+  }
+}
+function g11End(){
+  G11.running = false;
+  document.getElementById('g11Play').style.display = 'none';
+  document.getElementById('g11Over').style.display = 'block';
+  document.getElementById('g11Final').textContent = G11.score;
+  document.getElementById('g11Rank').textContent = G11.score >= 150 ? '🌟 Calculateur·rice de plages !' : G11.score >= 90 ? '🔥 Excellent !' : G11.score >= 40 ? '👍 Bien.' : '⚠ Multiplie colonnes × lignes.';
+  if(G11.score >= 100) TPScore.add('🎰');
+}
+
+/* ====================================================================
+   JEU 12 — MARATHON DES FORMULES
+==================================================================== */
+const G12 = { score:0, round:0, good:0, current:null, awaiting:false };
+const MARATHON_CHALLENGES = [
+  {type:'mcq', q:'Quelle fonction donne la <strong>moyenne</strong> d\'une plage ?', opts:['SOMME','MIN','MOYENNE','NB'], correct:2},
+  {type:'num', q:'Si A1=4, A2=6, A3=10, que vaut <code>=SOMME(A1:A3)</code> ?', answer:20},
+  {type:'text', q:'Quelle est la référence de la cellule à la <strong>colonne C</strong>, <strong>ligne 5</strong> ?', answer:'C5'},
+  {type:'mcq', q:'Combien de cellules contient la plage <code>B2:D4</code> ?', opts:['6','9','12','16'], correct:1},
+  {type:'num', q:'Si B1=10, B2=20, B3=30, que vaut <code>=MOYENNE(B1:B3)</code> ?', answer:20},
+  {type:'mcq', q:'Quelle syntaxe est <strong>correcte</strong> pour additionner A1 à A5 ?', opts:['=SOMME(A1-A5)','=SOMME(A1:A5)','=SOMME[A1:A5]','=ADD(A1:A5)'], correct:1},
+  {type:'num', q:'Si C1=15, C2=8, C3=22, C4=11, que vaut <code>=MIN(C1:C4)</code> ?', answer:8},
+  {type:'mcq', q:'Pour compter combien d\'élèves ont une note saisie, on utilise…', opts:['SOMME','MOYENNE','NB','MAX'], correct:2},
+  {type:'text', q:'Quelle est la référence de la cellule à la <strong>colonne A</strong>, <strong>ligne 12</strong> ?', answer:'A12'},
+  {type:'num', q:'Si A1=5 et B1=3, que vaut <code>=A1*B1+2</code> ?', answer:17}
+];
+function g12Start(){
+  G12.score = 0; G12.round = 0; G12.good = 0;
+  document.getElementById('g12Start').style.display = 'none';
+  document.getElementById('g12Over').style.display = 'none';
+  document.getElementById('g12Play').style.display = 'block';
+  document.getElementById('g12Score').textContent = '0';
+  document.getElementById('g12Round').textContent = '0';
+  document.getElementById('g12Good').textContent = '0';
+  g12LoadChallenge();
+}
+function g12LoadChallenge(){
+  if(G12.round >= MARATHON_CHALLENGES.length){ g12End(); return; }
+  G12.current = MARATHON_CHALLENGES[G12.round];
+  G12.awaiting = true;
+  document.getElementById('g12Round').textContent = (G12.round + 1);
+  document.getElementById('g12Progress').style.width = (G12.round / MARATHON_CHALLENGES.length * 100) + '%';
+  const c = G12.current;
+  let body = '<h4>Défi ' + (G12.round+1) + '/10</h4><div class="mc-instr">' + c.q + '</div>';
+  if(c.type === 'mcq'){
+    body += '<div class="mc-opts">' + c.opts.map((o, i) => '<div class="mc-opt" onclick="g12AnswerMcq(' + i + ', this)">' + o + '</div>').join('') + '</div>';
+  } else if(c.type === 'num' || c.type === 'text'){
+    const isNum = c.type === 'num';
+    body += '<div class="mc-actions"><input type="' + (isNum ? 'number' : 'text') + '" id="g12Input" placeholder="?" autocomplete="off"><button class="btn-fire" onclick="g12AnswerInput()">✓ Valider</button></div>';
+  }
+  document.getElementById('g12Card').innerHTML = body;
+  document.getElementById('fb_g12').classList.remove('show');
+  setTimeout(()=>{ const inp = document.getElementById('g12Input'); if(inp){ inp.focus(); inp.addEventListener('keydown', e=>{ if(e.key === 'Enter'){ e.preventDefault(); g12AnswerInput(); }}); } }, 50);
+}
+function g12AnswerMcq(idx, el){
+  if(!G12.awaiting) return;
+  G12.awaiting = false;
+  const ok = (idx === G12.current.correct);
+  document.querySelectorAll('#g12Card .mc-opt').forEach(o => o.onclick = null);
+  if(ok){
+    el.classList.add('correct');
+    G12.score += 10; G12.good++;
+  } else {
+    el.classList.add('wrong');
+    const correct = document.querySelectorAll('#g12Card .mc-opt')[G12.current.correct];
+    if(correct) correct.classList.add('correct');
+  }
+  g12Feedback(ok);
+}
+function g12AnswerInput(){
+  if(!G12.awaiting) return;
+  G12.awaiting = false;
+  const raw = document.getElementById('g12Input').value.trim();
+  const c = G12.current;
+  let ok = false;
+  if(c.type === 'num'){
+    const v = parseFloat(raw.replace(',', '.'));
+    ok = Math.abs(v - c.answer) < 0.01;
+  } else {
+    ok = raw.toUpperCase() === String(c.answer).toUpperCase();
+  }
+  if(ok){ G12.score += 10; G12.good++; }
+  g12Feedback(ok);
+}
+function g12Feedback(ok){
+  const fb = document.getElementById('fb_g12');
+  fb.className = 'feedback show ' + (ok ? 'ok' : 'ko');
+  if(ok){
+    fb.innerHTML = '✓ Bonne réponse !';
+  } else {
+    const c = G12.current;
+    const correctAnswer = c.type === 'mcq' ? c.opts[c.correct] : c.answer;
+    fb.innerHTML = '✗ La bonne réponse était : <strong>' + correctAnswer + '</strong>';
+  }
+  document.getElementById('g12Score').textContent = G12.score;
+  document.getElementById('g12Good').textContent = G12.good;
+  setTimeout(()=>{ G12.round++; g12LoadChallenge(); }, ok ? 800 : 1500);
+}
+function g12End(){
+  document.getElementById('g12Progress').style.width = '100%';
+  document.getElementById('g12Play').style.display = 'none';
+  document.getElementById('g12Over').style.display = 'block';
+  document.getElementById('g12Final').textContent = G12.score;
+  document.getElementById('g12FinalGood').textContent = G12.good;
+  const msg = G12.score === 100 ? '🏆 Marathon parfait ! Légende vivante !' : G12.score >= 80 ? '🌟 Excellent marathon !' : G12.score >= 60 ? '🔥 Très bien.' : G12.score >= 40 ? '👍 Pas mal, persévère.' : '⚠ Reprends les modules avant un nouveau marathon.';
+  document.getElementById('g12Rank').textContent = msg;
+  if(G12.score >= 70) TPScore.add('🏆');
+}
+
+// Enter dans l'input du jeu 11
+document.getElementById('g11Input').addEventListener('keydown', e=>{
+  if(e.key === 'Enter'){ e.preventDefault(); g11Submit(); }
 });
 </script>
 
